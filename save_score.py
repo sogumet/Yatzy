@@ -42,7 +42,8 @@ class SaveScore:
                 if int(choice) < 7:
                     self.save_numbers(choice)
                     break
-                self._get_method(choice)()
+                test = self._get_method(choice)()
+                test()
                 break
             except KeyError:
                 print("Invalid choice!")
