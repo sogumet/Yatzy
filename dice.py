@@ -1,3 +1,7 @@
+
+""" Class Dice and class
+Hand that hold 5 dices
+"""
 import random
 
 class Dice():
@@ -13,9 +17,9 @@ class Dice():
 
 class Hand():
     """Hand"""
-    
+
     def __init__(self):
         """init"""
         self.hand = []
-        for x in range(5):
+        for _ in range(5):
             self.hand.append(Dice())
