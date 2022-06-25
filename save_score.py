@@ -14,13 +14,15 @@ class SaveScore:
         "6": "save_numbers",
         "7": "save_pair",
         "8": "save_two_pair",
-        "9": "save_three_of_a_kind",
-        "10": "save_four_of_a_kind",
+        "9": "save_three_or_four",
+        "10": "save_three_or_four",
         "11": "save_full_house",
         "12": "save_small_straight",
         "13": "save_big_straight",
         "14": "save_chanse",
         "15": "save_yatzy",
+        "16": "three",
+        "17": "four"
     }
 
     def __init__(self, player, hand, choice):
@@ -31,7 +33,7 @@ class SaveScore:
         if int(choice) < 7:
             self.save_numbers(choice)
         else:
-            self._get_method(choice)()
+            self._get_method(choice)(choice)
 
     def re_select(self):
         """ If selection is already taken"""
@@ -42,8 +44,7 @@ class SaveScore:
                 if int(choice) < 7:
                     self.save_numbers(choice)
                     break
-                test = self._get_method(choice)()
-                test()
+                self._get_method(choice)(choice)
                 break
             except KeyError:
                 print("Invalid choice!")
@@ -114,45 +115,48 @@ class SaveScore:
             print("Stryker tvåpar")
             self.player.board["twoPair"] = "-"
 
-    def save_three_of_a_kind(self):
+    def save_three_or_four(self, option):
         """Saving three of a kind"""
-        val = 0
+        if option == "9":
+            save = "three"
+            met = getattr(self, self._OPTIONS["16"])
+        if option == "10":
+            save = "four"
+            met = getattr(self, self._OPTIONS["17"])
         values = []
-        if self.player.board["threeOf"] != '':
+        val = 0
+        if self.player.board[save] != '':
             print("Three of a kind is already taken")
             self.re_select()
-        for i in self.hand.hand:
-            values.append(i.value)
-        for i in range(1, 7):
-            y = values.count(i)
-            if y > 2:
-                val = 3 * i
-                self.player.board["threeOf"] = val
-                self.player.board["hidden"] += val
-                break
-        else:
-            print("Stryker triss")
-            self.player.board["threeOf"] = "-"
-
-    def save_four_of_a_kind(self):
-        """Saving four of a kind"""
-        val = 0
-        values = []
-        if self.player.board["fourOf"] != '':
-            print("Four of a kind is already taken")
-            self.re_select()
+            return
         for i in self.hand.hand:
             values.append(i.value)
         for i in range(1, 7):
             occ = values.count(i)
-            if occ > 3:
-                val = 4 * i
-                self.player.board["fourOf"] = val
-                self.player.board["hidden"] += val
-                break
+            if occ > val:
+                val = occ
+                numb = i
+        met(numb, val)
+            
+    
+    def three(self, i, occ):
+        if occ > 2:
+            val = 3 * i
+            self.player.board["three"] = val
+            self.player.board["hidden"] += val
+        else:
+            print("Stryker triss")
+            self.player.board["three"] = "-"
+
+    def four(self, i, occ):
+        """Saving four of a kind"""  
+        if occ > 3:
+            val = 4 * i
+            self.player.board["four"] = val
+            self.player.board["hidden"] += val
         else:
             print("Stryker fyrtal")
-            self.player.board["fourOf"] = "-"
+            self.player.board["four"] = "-"
 
     def save_full_house(self):
         """Saving full house"""

@@ -15,8 +15,8 @@ class Tableprint:
         self.bonus = ["Bonus", ]
         self.pair = ["Par", 7]
         self.two_pair = ["Två par", 8]
-        self.three_of = ["Triss", 9]
-        self.four_of = ["Fyrtal", 10]
+        self.threes = ["Triss", 9]
+        self.fours = ["Fyrtal", 10]
         self.full_house = ["Kåk", 11]
         self.small = ["Liten", 12]
         self.big = ["Stor", 13]
@@ -25,9 +25,10 @@ class Tableprint:
         self.total = ["Total", ]
 
         self.table = [self.head, self.one, self.two, self.three, self.four, self.five,
-        self.six, self.sum, self.bonus, self.pair, self.two_pair, self.three_of,
-        self.four_of, self.full_house, self.small, self.big, self.chanse,
+        self.six, self.sum, self.bonus, self.pair, self.two_pair, self.threes,
+        self.fours, self.full_house, self.small, self.big, self.chanse,
         self.yatzy, self.total]
+
 
     def print(self, players):
         """Printing the scoreboard"""
@@ -43,8 +44,8 @@ class Tableprint:
             self.bonus.insert(i+1, player.board["bonus"])
             self.pair.insert(i+1, player.board["pair"])
             self.two_pair.insert(i+1, player.board["twoPair"])
-            self.three_of.insert(i+1, player.board["threeOf"])
-            self.four_of.insert(i+1, player.board["fourOf"])
+            self.threes.insert(i+1, player.board["three"])
+            self.fours.insert(i+1, player.board["four"])
             self.full_house.insert(i+1, player.board["fullHouse"])
             self.small.insert(i+1, player.board["small"])
             self.big.insert(i+1, player.board["big"])
