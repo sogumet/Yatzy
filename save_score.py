@@ -17,8 +17,8 @@ class SaveScore:
         "9": "save_three_or_four",
         "10": "save_three_or_four",
         "11": "save_full_house",
-        "12": "save_small_straight",
-        "13": "save_big_straight",
+        "12": "save_straight",
+        "13": "save_straight",
         "14": "save_chanse",
         "15": "save_yatzy",
         "16": "three",
@@ -78,7 +78,7 @@ class SaveScore:
             if self.player.board['sum'] != '' and self.player.board['sum'] > 62:
                 self.player.board['bonus'] = 50
 
-    def save_pair(self):
+    def save_pair(self, _unused=False):
         """Saving pair"""
         val = 0
         if self.player.board["pair"] != '':
@@ -89,13 +89,11 @@ class SaveScore:
             if _[0].value == _[1].value and _[0].value + _[1].value > val:
                 val =_[0].value + _[1].value
         if val == 0:
-            print("Stryker par")
-            self.player.board["pair"] = "-"
+            self.stroke("pair", "par")
         else:
-            self.player.board["pair"] = val
-            self.player.board["hidden"] += val
+            self.save("pair", val)
 
-    def save_two_pair(self):
+    def save_two_pair(self, _unused=False):
         """Saving two pair"""
         val = 0
         pair = set()
@@ -109,18 +107,16 @@ class SaveScore:
                 pair.add(val)
         if len(pair) == 2:
             val = sum(pair)
-            self.player.board["twoPair"] = val
-            self.player.board["hidden"] += val
+            self.save("twoPair", val)
         else:
-            print("Stryker tvåpar")
-            self.player.board["twoPair"] = "-"
+            self.stroke("twoPair", "två par")
 
-    def save_three_or_four(self, option):
-        """Saving three of a kind"""
-        if option == "9":
+    def save_three_or_four(self, choice):
+        """Saving three or four of a kind"""
+        if choice == "9":
             save = "three"
             met = getattr(self, self._OPTIONS["16"])
-        if option == "10":
+        if choice == "10":
             save = "four"
             met = getattr(self, self._OPTIONS["17"])
         values = []
@@ -137,28 +133,34 @@ class SaveScore:
                 val = occ
                 numb = i
         met(numb, val)
-            
-    
+
     def three(self, i, occ):
+        """Saving three of a kind"""
         if occ > 2:
             val = 3 * i
-            self.player.board["three"] = val
-            self.player.board["hidden"] += val
+            self.save("three", val)
         else:
-            print("Stryker triss")
-            self.player.board["three"] = "-"
+            self.stroke("three", "triss")
 
     def four(self, i, occ):
-        """Saving four of a kind"""  
+        """Saving four of a kind"""
         if occ > 3:
             val = 4 * i
-            self.player.board["four"] = val
-            self.player.board["hidden"] += val
+            self.save("four", val)
         else:
-            print("Stryker fyrtal")
-            self.player.board["four"] = "-"
+            self.stroke("four", "fyrtal")
 
-    def save_full_house(self):
+    def save(self, choice, val):
+        """General save"""
+        self.player.board[choice] = val
+        self.player.board["hidden"] += val
+
+    def stroke(self, choice, val):
+        """General stroke"""
+        print(f"Stryker {val}")
+        self.player.board[choice] = "-"
+
+    def save_full_house(self, _unused=False):
         """Saving full house"""
         val = 0
         values = []
@@ -176,61 +178,41 @@ class SaveScore:
             continue
         if values[0] == values[1]:
             val += values[0] * 2
-            self.player.board["fullHouse"] = val
-            self.player.board["hidden"] += val
+            self.save("fullHouse", val)
         else:
-            print("Stryker kåk")
-            self.player.board["fullHouse"] = '-'
+            self.stroke("fullHouse", "kåk")
 
-    def save_small_straight(self):
-        """Saving small straight"""
+    def save_straight(self, choice):
+        """Saving straight"""
+        if choice == "12":
+            val = "small"
+            size = 1
+        if choice == "13":
+            val = "big"
+            size = 6
         values = []
         setval = set()
-        if self.player.board["small"] != '':
-            print("Small straight is already taken")
+        if self.player.board[val] != '':
+            print(f"{val} straight is already taken")
             self.re_select()
         for i in self.hand.hand:
             values.append(i.value)
             setval.add(i.value)
         if len(setval) != 5:
-            print("Stryker liten stege")
-            self.player.board["small"] = '-'
+            print(f"Stryker {val} stege")
+            self.player.board[val] = '-'
             return
         for i in range(2,6):
             occ = values.count(i)
             if occ == 0:
-                print("Stryker liten stege")
-                self.player.board["small"] = '-'
+                print(f"Stryker {val} stege")
+                self.player.board[val] = '-'
                 return
-        if values.count(1):
-            self.player.board["small"] = 15
-            self.player.board["hidden"] += 15
+        if values.count(size):
+            self.player.board[val] = 14 + size
+            self.player.board["hidden"] += 14 + size
 
-    def save_big_straight(self):
-        """Saving big straight"""
-        values = []
-        setval = set()
-        if self.player.board["big"] != '':
-            print("Big straight is already taken")
-            self.re_select()
-        for i in self.hand.hand:
-            values.append(i.value)
-            setval.add(i.value)
-        if len(setval) != 5:
-            print("Stryker stor stege")
-            self.player.board["big"] = '-'
-            return
-        for i in range(2,6):
-            occ = values.count(i)
-            if occ == 0:
-                print("Stryker stor stege")
-                self.player.board["big"] = '-'
-                return
-        if values.count(6):
-            self.player.board["big"] = 20
-            self.player.board["hidden"] += 20
-
-    def save_chanse(self):
+    def save_chanse(self, _unused=False):
         """Saving chanse"""
         values = []
         if self.player.board["chanse"] != '':
@@ -241,7 +223,7 @@ class SaveScore:
         self.player.board["chanse"] = sum(values)
         self.player.board["hidden"] += sum(values)
 
-    def save_yatzy(self):
+    def save_yatzy(self, _unused=False):
         """Saving yatzy"""
         values = []
         if self.player.board["yatzy"] != '':
