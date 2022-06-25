@@ -116,7 +116,7 @@ class SaveScore:
         if choice == "9":
             save = "three"
             met = getattr(self, self._OPTIONS["16"])
-        if choice == "10":
+        else:
             save = "four"
             met = getattr(self, self._OPTIONS["17"])
         values = []
@@ -187,7 +187,7 @@ class SaveScore:
         if choice == "12":
             val = "small"
             size = 1
-        if choice == "13":
+        else:
             val = "big"
             size = 6
         values = []
