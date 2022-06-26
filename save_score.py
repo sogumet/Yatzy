@@ -59,8 +59,7 @@ class SaveScore:
         """Saving 1 to 6 """
         val = 0
         if self.player.board[choice] != '':
-            print( f'{choice} is already taken choose another number\n')
-            self.re_select()
+            self.taken(choice)
         else:
             for i in self.hand.hand:
                 if i.value == int(choice):
@@ -79,8 +78,7 @@ class SaveScore:
         """Saving pair"""
         val = 0
         if self.player.board["pair"] != '':
-            print("Pair is already taken")
-            self.re_select()
+            self.taken("pair")
         out = itertools.combinations(self.hand.hand, 2)
         for _ in out:
             if _[0].value == _[1].value and _[0].value + _[1].value > val:
@@ -95,8 +93,7 @@ class SaveScore:
         val = 0
         pair = set()
         if self.player.board["twoPair"] != '':
-            print("Two pair is already taken")
-            self.re_select()
+            self.taken("two pair")
         out = itertools.combinations(self.hand.hand, 2)
         for _ in out:
             if _[0].value == _[1].value:
@@ -120,8 +117,7 @@ class SaveScore:
         val = 0
         numb = 0
         if self.player.board[save] != '':
-            print("Three of a kind is already taken")
-            self.re_select()
+            self.taken(save + " of a kind")
             return
         for i in self.hand.hand:
             values.append(i.value)
@@ -153,8 +149,7 @@ class SaveScore:
         val = 0
         values = []
         if self.player.board["fullHouse"] != '':
-            print("Fullhouse is already taken")
-            self.re_select()
+            self.taken("full house")
         for i in self.hand.hand:
             values.append(i.value)
         out = itertools.combinations(values, 3)
@@ -181,8 +176,7 @@ class SaveScore:
         values = []
         setval = set()
         if self.player.board[val] != '':
-            print(f"{val.capitalize()} straight is already taken")
-            self.re_select()
+            self.taken(val + " straight ")
         for i in self.hand.hand:
             values.append(i.value)
             setval.add(i.value)
@@ -203,8 +197,7 @@ class SaveScore:
         """Saving chanse"""
         values = []
         if self.player.board["chanse"] != '':
-            print("Chanse is already taken")
-            self.re_select()
+            self.taken("chanse")
         for i in self.hand.hand:
             values.append(int(i.value))
         self.save("chanse", sum(values))
@@ -213,8 +206,7 @@ class SaveScore:
         """Saving yatzy"""
         values = []
         if self.player.board["yatzy"] != '':
-            print("Yatzy is already taken")
-            self.re_select()
+            self.taken("yatzy")
         for i in self.hand.hand:
             values.append(int(i.value))
         if len(set(values)) == 1:
@@ -231,3 +223,8 @@ class SaveScore:
         """General stroke"""
         print(f"Deleting {val}")
         self.player.board[choice] = "-"
+
+    def taken(self, choice):
+        """General stroke"""
+        print(f"{choice.capitalize()} is allready taken")
+        self.re_select()
