@@ -48,7 +48,7 @@ class Tableprint:
             self.fours.insert(i+1, player.board["four"])
             self.full_house.insert(i+1, player.board["fullHouse"])
             self.small.insert(i+1, player.board["small"])
-            self.big.insert(i+1, player.board["big"])
+            self.big.insert(i+1, player.board["large"])
             self.chanse.insert(i+1, player.board["chanse"])
             self.yatzy.insert(i+1, player.board["yatzy"])
             self.total.insert(i+1, player.board["total"])

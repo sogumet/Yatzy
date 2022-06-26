@@ -39,7 +39,7 @@ class SaveScore:
         """ If selection is already taken"""
 
         while True:
-            choice = input("Spara som:\n-> ")
+            choice = input("Save as:\n ")
             try:
                 if int(choice) < 7:
                     self.save_numbers(choice)
@@ -66,15 +66,12 @@ class SaveScore:
                 if i.value == int(choice):
                     val += i.value
             if val == 0:
-                self.player.board[choice] = '-'
-                print(f'Stryker {choice}')
+                self.stroke(choice, choice)
             else:
-                self.player.board[choice] = val
-                self.player.board["hidden"] += val
+                self.save(choice, val)
                 if self.player.board['sum'] == '':
                     self.player.board['sum'] = 0
                 self.player.board['sum'] += val
-                print(f'Sparar som {choice}')
             if self.player.board['sum'] != '' and self.player.board['sum'] > 62:
                 self.player.board['bonus'] = 50
 
@@ -109,7 +106,7 @@ class SaveScore:
             val = sum(pair)
             self.save("twoPair", val)
         else:
-            self.stroke("twoPair", "två par")
+            self.stroke("twoPair", "two pair")
 
     def save_three_or_four(self, choice):
         """Saving three or four of a kind"""
@@ -141,7 +138,7 @@ class SaveScore:
             val = 3 * i
             self.save("three", val)
         else:
-            self.stroke("three", "triss")
+            self.stroke("three", "three of")
 
     def four(self, i, occ):
         """Saving four of a kind"""
@@ -149,7 +146,7 @@ class SaveScore:
             val = 4 * i
             self.save("four", val)
         else:
-            self.stroke("four", "fyrtal")
+            self.stroke("four", "four of")
 
     def save_full_house(self, _unused=False):
         """Saving full house"""
@@ -160,18 +157,18 @@ class SaveScore:
             self.re_select()
         for i in self.hand.hand:
             values.append(i.value)
-        for i in range(1, 7):
-            if values.count(i) == 3:
-                val = 3 * i
-                three = i
+        out = itertools.combinations(values, 3)
+        for dots in out:
+            if dots.count(dots[0]) == len(dots):
+                three = dots[0]
                 for i in range(1, 4):
                     values.remove(three)
-            continue
-        if values[0] == values[1]:
+                    val = 3 * three
+        if values[0] == values[1] and len(values) == 2:
             val += values[0] * 2
             self.save("fullHouse", val)
         else:
-            self.stroke("fullHouse", "kåk")
+            self.stroke("fullHouse", "full house")
 
     def save_straight(self, choice):
         """Saving straight"""
@@ -179,27 +176,26 @@ class SaveScore:
             val = "small"
             size = 1
         else:
-            val = "big"
+            val = "large"
             size = 6
         values = []
         setval = set()
         if self.player.board[val] != '':
-            print(f"{val} straight is already taken")
+            print(f"{val.capitalize()} straight is already taken")
             self.re_select()
         for i in self.hand.hand:
             values.append(i.value)
             setval.add(i.value)
         if len(setval) != 5:
-            print(f"Stryker {val} stege")
-            self.player.board[val] = '-'
+            self.stroke(val, val)
             return
         for i in range(2,6):
             occ = values.count(i)
             if occ == 0:
-                print(f"Stryker {val} stege")
-                self.player.board[val] = '-'
+                self.stroke(val, val)
                 return
         if values.count(size):
+            print(f"Saving as {val} straight")
             self.player.board[val] = 14 + size
             self.player.board["hidden"] += 14 + size
 
@@ -211,8 +207,7 @@ class SaveScore:
             self.re_select()
         for i in self.hand.hand:
             values.append(int(i.value))
-        self.player.board["chanse"] = sum(values)
-        self.player.board["hidden"] += sum(values)
+        self.save("chanse", sum(values))
 
     def save_yatzy(self, _unused=False):
         """Saving yatzy"""
@@ -223,18 +218,16 @@ class SaveScore:
         for i in self.hand.hand:
             values.append(int(i.value))
         if len(set(values)) == 1:
-            self.player.board["yatzy"] = 50
-            self.player.board["hidden"] += 50
+            self.save("yatzy", 50)
         else:
-            print("Stryker yatzy")
-            self.player.board["yatzy"] = '-'
-
+            self.stroke("yatzy", "yatzy")
     def save(self, choice, val):
         """General save"""
+        print(f"Saving as {choice}")
         self.player.board[choice] = val
         self.player.board["hidden"] += val
 
     def stroke(self, choice, val):
         """General stroke"""
-        print(f"Stryker {val}")
+        print(f"Deleting {val}")
         self.player.board[choice] = "-"

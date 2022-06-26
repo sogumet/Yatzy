@@ -6,4 +6,4 @@ class Score:
         self.board = {"name": name, "1": "", "2": "", "3": "", "4": "",
         "5": "", "6": "", "sum": "", "bonus": "", "pair": "", "twoPair": "",
         "three": "", "four": "", "fullHouse": "", "small": "",
-        "big": "", "chanse": "", "yatzy": "", "total": "", "hidden": 0 }
+        "large": "", "chanse": "", "yatzy": "", "total": "", "hidden": 0 }
