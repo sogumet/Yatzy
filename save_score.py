@@ -121,6 +121,7 @@ class SaveScore:
             met = getattr(self, self._OPTIONS["17"])
         values = []
         val = 0
+        numb = 0
         if self.player.board[save] != '':
             print("Three of a kind is already taken")
             self.re_select()
@@ -149,16 +150,6 @@ class SaveScore:
             self.save("four", val)
         else:
             self.stroke("four", "fyrtal")
-
-    def save(self, choice, val):
-        """General save"""
-        self.player.board[choice] = val
-        self.player.board["hidden"] += val
-
-    def stroke(self, choice, val):
-        """General stroke"""
-        print(f"Stryker {val}")
-        self.player.board[choice] = "-"
 
     def save_full_house(self, _unused=False):
         """Saving full house"""
@@ -237,3 +228,13 @@ class SaveScore:
         else:
             print("Stryker yatzy")
             self.player.board["yatzy"] = '-'
+
+    def save(self, choice, val):
+        """General save"""
+        self.player.board[choice] = val
+        self.player.board["hidden"] += val
+
+    def stroke(self, choice, val):
+        """General stroke"""
+        print(f"Stryker {val}")
+        self.player.board[choice] = "-"

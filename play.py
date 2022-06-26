@@ -36,7 +36,7 @@ class Play:
                     choise = input("Enter to roll or choose \
 dices to hold or s for save:\n ")
                     if choise == 's':
-                        self.save_less_then_three_rolls(player, hand)
+                        self.save_rools(player, hand, 2)
                         return
                     for _ in choise:
                         all_dice.remove(int(_)-1)
@@ -49,32 +49,18 @@ dices to hold or s for save:\n ")
                 except ValueError:
                     print("Only numbers 1 to 5 or letter s is valid\n")
                 if self.counter == 2:
-                    self.save_after_three_rolls(player, hand)
+                    self.save_rools(player, hand, 0)
                     return
 
-    def save_less_then_three_rolls(self, player, hand):
-        "saving method"
-        while True:
-            try:
-                choise = input("Save as?\n ")
-                self.save(player, hand, choise)
-                table = Tableprint()
-                table.print(self.scoreList)
-                self.counter = 2
-                return
-            except ValueError:
-                print("Must be a number between 1 and 15")
-
-
-    def save_after_three_rolls(self, player, hand):
-        """After three rolls"""
+    def save_rools(self, player, hand, counts):
+        """Save method"""
         while True:
             try:
                 choise = input("Save as?\n ")
                 self.save(player, hand, choise) # init savescore
                 table = Tableprint()
                 table.print(self.scoreList)
-                self.counter = 0
+                self.counter = counts
                 break
             except (ValueError, KeyError):
                 print("Must be a number between 1 and 15")
