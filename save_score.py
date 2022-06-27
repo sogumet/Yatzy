@@ -213,6 +213,7 @@ class SaveScore:
             self.save("yatzy", 50)
         else:
             self.stroke("yatzy", "yatzy")
+
     def save(self, choice, val):
         """General save"""
         print(f"Saving as {choice}")
