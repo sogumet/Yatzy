@@ -3,32 +3,15 @@
 --
 USE yatzy;
 -- Drop tables in order to avoid FK constraint
-DROP TABLE IF EXISTS scoreboard;
+DROP TABLE IF EXISTS score;
 
 
 -- Create table scoreboard
-CREATE TABLE scoreboard
+CREATE TABLE score
 (
     id INT AUTO_INCREMENT NOT NULL,
-    time_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    time_created DATE DEFAULT CURRENT_TIMESTAMP,
     namn CHAR(16) NOT NULL,
-    ettor INT,
-    tvaor INT,
-    treor INT,
-    fyror INT,
-    femmor INT,
-    sexor INT,
-    summa INT,
-    bonus INT,
-    par INT,
-    tvapar INT,
-    triss INT,
-    kak INT,
-    fyrtal INT,
-    liten INT,
-    stor INT,
-    chans INT,
-    yatzy INT,
     total INT,
 
     PRIMARY KEY (id),

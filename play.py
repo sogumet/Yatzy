@@ -59,7 +59,7 @@ dices to hold or s for save:\n ")
                 choise = input("Save as?\n ")
                 self.save(player, hand, choise) # init savescore
                 table = Tableprint()
-                table.print(self.scoreList)
+                table.print_score_board(self.scoreList)
                 self.counter = counts
                 break
             except (ValueError, KeyError):
@@ -71,7 +71,7 @@ dices to hold or s for save:\n ")
             player = Score(i)           # each player is a dictonary/scoreObject
             self.scoreList.append(player)
         table = Tableprint()
-        table.print(self.scoreList)
+        table.print_score_board(self.scoreList)
         self.play(self.scoreList)
 
     def finish(self):
@@ -81,4 +81,4 @@ dices to hold or s for save:\n ")
             if player.board["bonus"] != "":
                 player.board["total"] += 50
         table = Tableprint()
-        table.print(self.scoreList)
+        table.print_score_board(self.scoreList)

@@ -4,53 +4,57 @@ from tabulate import tabulate
 class Tableprint:
     """Class for printing ta"""
     def __init__(self):
-        self.head = ["Yatzy", "Välj"]
-        self.one = ["Ettor", 1]
-        self.two = ["Tvåor", 2]
-        self.three = ["Treor", 3]
-        self.four = ["Fyror", 4]
-        self.five = ["Femmor", 5]
-        self.six = ["Sexor", 6]
-        self.sum = ["Summa",  ]
-        self.bonus = ["Bonus", ]
-        self.pair = ["Par", 7]
-        self.two_pair = ["Två par", 8]
-        self.threes = ["Triss", 9]
-        self.fours = ["Fyrtal", 10]
-        self.full_house = ["Kåk", 11]
-        self.small = ["Liten", 12]
-        self.big = ["Stor", 13]
-        self.chanse = ["Chans", 14]
-        self.yatzy = ["Yatzy", 15]
-        self.total = ["Total", ]
 
-        self.table = [self.head, self.one, self.two, self.three, self.four, self.five,
-        self.six, self.sum, self.bonus, self.pair, self.two_pair, self.threes,
-        self.fours, self.full_house, self.small, self.big, self.chanse,
-        self.yatzy, self.total]
+        self.table = []
 
 
-    def print(self, players):
+    def print_score_board(self, players):
         """Printing the scoreboard"""
+
+        head = [["Yatzy", "Välj"],
+        ["Ettor", 1],
+        ["Tvåor", 2],
+        ["Treor", 3],
+        ["Fyror", 4],
+        ["Femmor", 5],
+        ["Sexor", 6],
+        ["Summa",  ],
+        ["Bonus", ],
+        ["Par", 7],
+        ["Två par", 8],
+        ["Triss", 9],
+        ["Fyrtal", 10],
+        ["Kåk", 11],
+        ["Liten", 12],
+        ["Stor", 13],
+        ["Chans", 14],
+        ["Yatzy", 15],
+        ["Total", ]]
+
         for i, player in enumerate(players):
-            self.head.insert(i+1, player.board["name"])
-            self.one.insert(i+1, player.board["1"])
-            self.two.insert(i+1, player.board["2"])
-            self.three.insert(i+1, player.board["3"])
-            self.four.insert(i+1, player.board["4"])
-            self.five.insert(i+1, player.board["5"])
-            self.six.insert(i+1, player.board["6"])
-            self.sum.insert(i+1, player.board["sum"])
-            self.bonus.insert(i+1, player.board["bonus"])
-            self.pair.insert(i+1, player.board["pair"])
-            self.two_pair.insert(i+1, player.board["twoPair"])
-            self.threes.insert(i+1, player.board["three"])
-            self.fours.insert(i+1, player.board["four"])
-            self.full_house.insert(i+1, player.board["fullHouse"])
-            self.small.insert(i+1, player.board["small"])
-            self.big.insert(i+1, player.board["large"])
-            self.chanse.insert(i+1, player.board["chanse"])
-            self.yatzy.insert(i+1, player.board["yatzy"])
-            self.total.insert(i+1, player.board["total"])
+            head[0].insert(i+1, player.board["name"])
+            head[1].insert(i+1, player.board["1"])
+            head[2].insert(i+1, player.board["2"])
+            head[3].insert(i+1, player.board["3"])
+            head[4].insert(i+1, player.board["4"])
+            head[5].insert(i+1, player.board["5"])
+            head[6].insert(i+1, player.board["6"])
+            head[7].insert(i+1, player.board["sum"])
+            head[8].insert(i+1, player.board["bonus"])
+            head[9].insert(i+1, player.board["pair"])
+            head[10].insert(i+1, player.board["twoPair"])
+            head[11].insert(i+1, player.board["three"])
+            head[12].insert(i+1, player.board["four"])
+            head[13].insert(i+1, player.board["fullHouse"])
+            head[14].insert(i+1, player.board["small"])
+            head[15].insert(i+1, player.board["large"])
+            head[16].insert(i+1, player.board["chanse"])
+            head[17].insert(i+1, player.board["yatzy"])
+            head[18].insert(i+1, player.board["total"])
+   
+        self.table = [head[0], head[1], head[2], head[3], head[4], head[5],
+        head[6], head[7], head[8], head[9], head[10], head[11],
+        head[12], head[13], head[14], head[15], head[16],
+        head[17], head[18]]
 
         print(tabulate(self.table, headers="firstrow",missingval="", tablefmt="fancy_grid"))

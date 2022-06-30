@@ -1,13 +1,16 @@
 """Module with  main class Menu"""
 import sys
 import inspect
+import art
 
 from play import Play
+from database import Database
 
 class Menu:
     """Class Menu with methods to init the game"""
     _OPTIONS = {
         "1": "start_game",
+        "2": "show_scores",
         "q": "quit"
     }
 
@@ -19,6 +22,7 @@ class Menu:
     def start(self):
         """ Start method """
         while True:
+            print(art.YATZY_ART)
             self._print_menu()
             choice = input("Enter menu selection:\n-> ")
             try:
@@ -65,6 +69,12 @@ class Menu:
                 break
             except (ValueError, TypeError):
                 print("Must be an integer from 1 to 4!")
+                
+    @staticmethod
+    def show_scores():
+        """Show scores"""
+        data = Database()
+        data.insert_score("Snurre", 23)
 
     @staticmethod
     def quit():
