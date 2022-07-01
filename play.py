@@ -3,6 +3,7 @@ from dice import Hand
 from score import Score
 from table import Tableprint
 from save_score import SaveScore
+from database import Database
 
 class Play:
     """Class play with methods to manage the roll, and turn of players"""
@@ -76,9 +77,11 @@ dices to hold or s for save:\n ")
 
     def finish(self):
         "Calculating sum when game is finished"
+        database = Database()
         for player in self.scoreList:
             player.board["total"] = player.board["hidden"]
             if player.board["bonus"] != "":
                 player.board["total"] += 50
+            database.insert_score(player.board["name"], player.board["total"])    
         table = Tableprint()
         table.print_score_board(self.scoreList)

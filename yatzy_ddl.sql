@@ -10,13 +10,35 @@ DROP TABLE IF EXISTS score;
 CREATE TABLE score
 (
     id INT AUTO_INCREMENT NOT NULL,
-    time_created DATE DEFAULT CURRENT_TIMESTAMP,
+    time_created DATE DEFAULT CURRENT_DATE,
     namn CHAR(16) NOT NULL,
     total INT,
 
     PRIMARY KEY (id),
     KEY (namn)
 );
+
+--Create view all score
+DROP VIEW IF EXISTS v_all_score;
+CREATE VIEW v_all_score
+AS
+SELECT
+    namn,
+    time_created AS Tid,
+    total
+FROM
+	score
+ORDER BY total desc;
+
+--Create procedure view all score
+DROP PROCEDURE IF EXISTS show_all_score;
+    DELIMITER ;;
+CREATE PROCEDURE show_all_score()
+BEGIN
+    SELECT * FROM v_all_score;
+END
+;;
+DELIMITER ;
 
 /* - Create table highscore
 CREATE TABLE higscore

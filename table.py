@@ -1,4 +1,5 @@
 """Table module"""
+from datetime import datetime
 from tabulate import tabulate
 
 class Tableprint:
@@ -51,10 +52,16 @@ class Tableprint:
             head[16].insert(i+1, player.board["chanse"])
             head[17].insert(i+1, player.board["yatzy"])
             head[18].insert(i+1, player.board["total"])
-   
+
         self.table = [head[0], head[1], head[2], head[3], head[4], head[5],
         head[6], head[7], head[8], head[9], head[10], head[11],
         head[12], head[13], head[14], head[15], head[16],
         head[17], head[18]]
 
         print(tabulate(self.table, headers="firstrow",missingval="", tablefmt="fancy_grid"))
+
+
+    def print_all_scores(self, scores):
+        """Printing all scores"""
+        print(tabulate(scores, headers=["Namn", "Tid", "Poäng"],
+        missingval="", tablefmt="fancy_grid"))

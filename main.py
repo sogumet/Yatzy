@@ -74,7 +74,7 @@ class Menu:
     def show_scores():
         """Show scores"""
         data = Database()
-        data.insert_score("Snurre", 23)
+        data.get_all_scores()
 
     @staticmethod
     def quit():

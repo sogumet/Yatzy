@@ -1,5 +1,6 @@
 """Module database"""
 import mysql.connector
+from table import Tableprint
 
 class Database:
     """Database class"""
@@ -23,12 +24,10 @@ class Database:
 
         self.mydb.commit()
 
-        print(self.mycursor.rowcount, "record inserted.")
-
-        self.mycursor.execute("SELECT * FROM score")
-
-        myresult = self.mycursor.fetchall()
-
-        for x in myresult:
-            print(x)
-
+    def get_all_scores(self):
+        """Getting all scores"""
+        self.mycursor.callproc('show_all_score')
+        for result in self.mycursor.stored_results():
+            res = result.fetchall()
+        table_print = Tableprint()
+        table_print.print_all_scores(res)
