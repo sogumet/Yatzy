@@ -3,37 +3,42 @@
 --
 USE yatzy;
 -- Drop tables in order to avoid FK constraint
-DROP TABLE IF EXISTS scoreboard;
+DROP TABLE IF EXISTS score;
 
 
 -- Create table scoreboard
-CREATE TABLE scoreboard
+CREATE TABLE score
 (
     id INT AUTO_INCREMENT NOT NULL,
-    time_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    time_created DATE DEFAULT CURRENT_DATE,
     namn CHAR(16) NOT NULL,
-    ettor INT,
-    tvaor INT,
-    treor INT,
-    fyror INT,
-    femmor INT,
-    sexor INT,
-    summa INT,
-    bonus INT,
-    par INT,
-    tvapar INT,
-    triss INT,
-    kak INT,
-    fyrtal INT,
-    liten INT,
-    stor INT,
-    chans INT,
-    yatzy INT,
     total INT,
 
     PRIMARY KEY (id),
     KEY (namn)
 );
+
+--Create view all score
+DROP VIEW IF EXISTS v_all_score;
+CREATE VIEW v_all_score
+AS
+SELECT
+    namn,
+    time_created AS Tid,
+    total
+FROM
+	score
+ORDER BY total desc;
+
+--Create procedure view all score
+DROP PROCEDURE IF EXISTS show_all_score;
+    DELIMITER ;;
+CREATE PROCEDURE show_all_score()
+BEGIN
+    SELECT * FROM v_all_score;
+END
+;;
+DELIMITER ;
 
 /* - Create table highscore
 CREATE TABLE higscore
